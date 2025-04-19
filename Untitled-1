@@ -1,0 +1,47 @@
+<form id="formulario-contacto">
+    <input type="text" name="nombre" placeholder="Tu nombre" required />
+    <input type="email" name="correo" placeholder="Correo electrónico" required />
+    <input type="tel" name="telefono" placeholder="Teléfono" />
+    <select name="motivo" required>
+      <option value="">Selecciona el motivo de consulta</option>
+      <option>Asesoría Familiar</option>
+      <option>Testamento / Sucesión</option>
+      <option>Contrato Civil</option>
+      <option>Arrendamiento</option>
+      <option>Otro</option>
+    </select>
+    <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+    <button type="submit">Enviar consulta</button>
+  </form>
+  
+  <script>
+    document.getElementById("formulario-contacto").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        nombre: form.nombre.value,
+        correo: form.correo.value,
+        telefono: form.telefono.value,
+        motivo: form.motivo.value,
+        mensaje: form.mensaje.value,
+      };
+  
+      fetch("https://script.google.com/macros/s/AKfycbwrDW1RvxjGiHaPjA1waUs0rOVJfejp_DvwfTHhrpGXtFccB3y2I1P0A1KOx97xJbNV/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.json())
+      .then((response) => {
+        alert("Gracias por contactarnos. Nos comunicaremos contigo pronto.");
+        form.reset();
+      })
+      .catch((error) => {
+        alert("Hubo un error al enviar el formulario. Intenta de nuevo más tarde.");
+        console.error("Error:", error);
+      });
+    });
+  </script>
+  
